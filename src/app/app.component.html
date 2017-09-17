@@ -1,0 +1,22 @@
+<!-- <p-dataTable [value]="cars1" sortField="brand" rowGroupMode="subheader" groupField="brand" expandableRowGroups="true"
+[sortableRowGroup]="false">
+<p-header>Toggleable Row Groups with Footers</p-header>
+<ng-template pTemplate="rowgroupheader" let-rowData>
+        <td  style="text-align:right">Total Price</td>
+        <td>hii</td>
+</ng-template>
+<p-column field="color" header="Color"></p-column>
+<p-column field="year" header="Year"></p-column>
+<p-column field="vin" header="Vin"></p-column>
+<p-column field="price" header="Price">
+<ng-template let-col let-car="rowData" pTemplate="body">
+    <span>{{car[col.field] | currency:'USD':true:'.0-0'}}</span>
+</ng-template>
+</p-column>
+<ng-template pTemplate="rowgroupfooter" let-car>
+<td colspan="3" style="text-align:right">Total Price</td>
+<td>{{calculateGroupTotal(car['brand']) | currency:'USD':true:'.0-0' }}</td>
+</ng-template>
+</p-dataTable> -->
+
+<app-table></app-table>

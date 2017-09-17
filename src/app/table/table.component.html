@@ -1,0 +1,93 @@
+<div class="form-group">
+    <div class="col-md-6" >
+      <input type="text" [(ngModel)]="searchText" 
+             class="form-control" placeholder="Search By Category" />
+    </div>
+  </div>
+  <div class="col-md-12">
+    <table class="table table-responsive table-hover">
+      <tr>
+          <th>
+              <input type="checkbox" name="all" (click)="checkAll()"  [(checked)]="itemsStates"  />
+          </th>
+          <th>
+              <button (click)="expandAll()" >Expandall</button>
+          </th>
+        <th class="pointer" (click)="sort('CategoryID')">Category ID<i class="fa" 
+          [ngClass]="{'fa-sort': column != 'CategoryID', 
+                              'fa-sort-asc': (column == 'CategoryID' && isDesc), 
+                              'fa-sort-desc': (column == 'CategoryID' && !isDesc) }"
+          aria-hidden="true"> </i>
+      </th>
+        <th class="pointer" (click)="sort('CategoryName')">Category
+            <i class="fa" 
+            [ngClass]="{'fa-sort': column != 'CategoryName', 
+                                'fa-sort-asc': (column == 'CategoryName' && isDesc), 
+                                'fa-sort-desc': (column == 'CategoryName' && !isDesc) }"
+            aria-hidden="true"> </i>
+        </th>
+        <th class="pointer" (click)="sort('Description')">Description
+            <i class="fa" 
+            [ngClass]="{'fa-sort': column != 'Description', 
+                                'fa-sort-asc': (column == 'Description' && isDesc), 
+                                'fa-sort-desc': (column == 'Description' && !isDesc) }"
+            aria-hidden="true"> </i>
+        </th>
+      </tr>
+      <!-- <tr *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}" > -->
+          <!-- <td>
+              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" />
+          </td>
+          <td>
+            <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">
+              <button (click)="expandItem(item)"
+              ><i  aria-hidden="true"
+                [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button>
+              </span>
+          </td>
+          <td>{{item.CategoryID}}</td>
+        <td>{{item.CategoryName}}</td>
+        <td>{{item.Description}}</td> -->
+        <!-- <div (click)="item.expanded=!item.expanded">
+          <span><input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" /></span>
+          <span><button (click)="expandItem(item)"
+            ><i  aria-hidden="true"
+              [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button></span>
+          <span>{{item.CategoryID}}</span>
+          <span>{{item.CategoryName}}</span>
+          <span>{{item.Description}}</span>
+        </div>
+        <div *ngIf="item.expanded" >
+        <div *ngFor="let childItems of item.invoiceLines"><span>{{childItems.name}}</span></div></div>
+      </tr> -->
+
+      <ng-container *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}">
+      <tr >
+          <td>
+              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" />
+          </td>
+          <td>
+            <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">
+              <button (click)="item.expanded=!item.expanded"
+              ><i  aria-hidden="true"
+                [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button>
+              </span>
+          </td>
+          <td>{{item.CategoryID}}</td>
+        <td>{{item.CategoryName}}</td>
+        <td>{{item.Description}}</td>
+        
+      </tr>
+      <ng-container *ngIf="item.expanded">
+      <tr *ngFor="let childItems of item.invoiceLines">
+        <td><input type="checkbox" name="size1" /></td>
+        <td>{{childItems.name}}</td>
+        <td>{{childItems.item}}</td>
+        <td>{{childItems.name}}</td>
+        <td>{{childItems.item}}</td>
+        
+      </tr>
+    </ng-container>
+    </ng-container>
+    </table>
+  </div>
