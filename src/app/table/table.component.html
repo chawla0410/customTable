@@ -11,7 +11,7 @@
               <input type="checkbox" name="all" (click)="checkAll()"  [(checked)]="itemsStates"  />
           </th>
           <th>
-              <button (click)="expandAll()" >Expandall</button>
+              <button (click)="expandAll()" >{{expandText}}</button>
           </th>
         <th class="pointer" (click)="sort('CategoryID')">Category ID<i class="fa" 
           [ngClass]="{'fa-sort': column != 'CategoryID', 
@@ -64,7 +64,7 @@
       <ng-container *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}">
       <tr >
           <td>
-              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" />
+              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" (click)="rowSelected(item)" />
           </td>
           <td>
             <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">

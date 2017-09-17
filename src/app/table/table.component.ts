@@ -15,7 +15,8 @@ export class TableComponent implements OnInit {
   column: string = 'CategoryName';
   direction: number;
   itemsState :boolean = false;
-
+  expandAllItems:boolean = false;
+  expandText:string = "Expand All" ;
   constructor() { }
 
   ngOnInit() {
@@ -46,4 +47,21 @@ checkAll(){
       this.records[i].state = this.itemsState;
   }
 }
+
+selectedRow(event){
+console.log(event);
+}
+
+rowSelected(event){
+  console.log(event);
+}
+
+expandAll(){
+  this.expandAllItems = !this.expandAllItems;
+  this.expandText = !this.expandAllItems ? this.expandText = "Expand All" : this.expandText = "Collapse All" ;
+  for(let i in this.records){
+    this.records[i].expanded = this.expandAllItems;
+}
+}
+
 }
