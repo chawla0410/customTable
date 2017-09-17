@@ -13,17 +13,17 @@
           <th>
               <button (click)="expandAll()" >{{expandText}}</button>
           </th>
-        <th class="pointer" (click)="sort('CategoryID')">Category ID<i class="fa" 
+        <th class="pointer" (click)="sort('InvoiceNo')">Invoice No<i class="fa" 
           [ngClass]="{'fa-sort': column != 'CategoryID', 
-                              'fa-sort-asc': (column == 'CategoryID' && isDesc), 
-                              'fa-sort-desc': (column == 'CategoryID' && !isDesc) }"
+                              'fa-sort-asc': (column == 'InvoiceNo' && isDesc), 
+                              'fa-sort-desc': (column == 'InvoiceNo' && !isDesc) }"
           aria-hidden="true"> </i>
       </th>
-        <th class="pointer" (click)="sort('CategoryName')">Category
+        <th class="pointer" (click)="sort('InvoiceName')">Invoice Name 
             <i class="fa" 
-            [ngClass]="{'fa-sort': column != 'CategoryName', 
-                                'fa-sort-asc': (column == 'CategoryName' && isDesc), 
-                                'fa-sort-desc': (column == 'CategoryName' && !isDesc) }"
+            [ngClass]="{'fa-sort': column != 'InvoiceName', 
+                                'fa-sort-asc': (column == 'InvoiceName' && isDesc), 
+                                'fa-sort-desc': (column == 'InvoiceName' && !isDesc) }"
             aria-hidden="true"> </i>
         </th>
         <th class="pointer" (click)="sort('Description')">Description
@@ -64,7 +64,7 @@
       <ng-container *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}">
       <tr >
           <td>
-              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" (click)="rowSelected(item)" />
+              <input type="checkbox" name="size1" value="item.Invoiceno" [(checked)]="item.state" (click)="rowSelected(item)" />
           </td>
           <td>
             <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">
@@ -73,8 +73,8 @@
                 [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button>
               </span>
           </td>
-          <td>{{item.CategoryID}}</td>
-        <td>{{item.CategoryName}}</td>
+          <td>{{item.InvoiceNo}}</td>
+        <td>{{item.InvoiceName}}</td>
         <td>{{item.Description}}</td>
         
       </tr>

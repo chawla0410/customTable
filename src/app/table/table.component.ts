@@ -22,16 +22,16 @@ export class TableComponent implements OnInit {
   ngOnInit() {
 
     this.records= [
-      { CategoryID: 1,  CategoryName: "Beverages", Description: "Coffees, teas", state : false ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:false},
-      { CategoryID: 2,  CategoryName: "Condiments", Description: "Sweet and savory sauces",state : false,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}] ,expanded:true},
-      { CategoryID: 3,  CategoryName: "Confections", Description: "Desserts and candies",state : false ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:false},
-      { CategoryID: 4,  CategoryName: "Cheeses",  Description: "Smetana, Quark and Cheddar Cheese" ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:true},
-      { CategoryID: 5,  CategoryName: "Grains/Cereals", Description: "Breads, crackers, pasta, and cereal",invoiceLines:[] ,expanded:false},
-      { CategoryID: 6,  CategoryName: "Beverages", Description: "Beers, and ales",invoiceLines:[],expanded:false },
-      { CategoryID: 7,  CategoryName: "Condiments", Description: "Selishes, spreads, and seasonings" ,invoiceLines:[],expanded:false},
-      { CategoryID: 8,  CategoryName: "Confections", Description: "Sweet breads",invoiceLines:[],expanded:false },
-      { CategoryID: 9,  CategoryName: "Cheeses",  Description: "Cheese Burger",invoiceLines:[],expanded:false },
-      { CategoryID: 10, CategoryName: "Grains/Cereals", Description: "Breads, crackers, pasta, and cereal" ,invoiceLines:[],expanded:false}
+      { InvoiceNo: 2, InvoiceName : "Invoice1", Description: "Music",state : false,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}] ,expanded:true},
+      { InvoiceNo: 3, InvoiceName : "Invoice3", Description: "ITunes Download",state : false ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:false},
+      { InvoiceNo: 1, InvoiceName : "Invoice4", Description: "Beat", state : false ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:false},
+      { InvoiceNo: 4, InvoiceName : "Invoice5",  Description: "match" ,invoiceLines :[{item : 1,name:"Item1"},{item : 2,name:"Item2"}],expanded:true},
+      { InvoiceNo: 5, InvoiceName : "Invoice6", Description: "Music",invoiceLines:[] ,expanded:false},
+      { InvoiceNo: 6, InvoiceName : "Invoice7", Description: "Music",invoiceLines:[],expanded:false },
+      { InvoiceNo: 7, InvoiceName : "Invoice2", Description: "Music" ,invoiceLines:[],expanded:false},
+      { InvoiceNo: 8, InvoiceName : "Invoice8", Description: "Match",invoiceLines:[],expanded:false },
+      { InvoiceNo: 9, InvoiceName : "Invoice9",  Description: "ITunes",invoiceLines:[],expanded:false },
+      { InvoiceNo: 10 ,InvoiceName : "Invoice10", Description: "Beat" ,invoiceLines:[],expanded:false}
      ];
   }
 
