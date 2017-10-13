@@ -1,93 +1,113 @@
-<div class="form-group">
-    <div class="col-md-6" >
-      <input type="text" [(ngModel)]="searchText" 
-             class="form-control" placeholder="Search By Category" />
-    </div>
+<h3 style="margin-top:15px">Invoice Search</h3>
+<div  class="form-group">
+  <div class="col-md-9" ></div>
+  <div class="col-md-3" >
+    <input type="text" [(ngModel)]="searchText" 
+           class="form-control" placeholder="Search By Category" />
   </div>
-  <div class="col-md-12">
-    <table class="table table-responsive table-hover">
-      <tr>
-          <th>
+</div>
+<div style="margin-top:10px" class="col-md-12">
+  
+  <!-- Dynamically binding Table Data  -->
+  <div >
+    <table class="table table-responsive  table-bordered">
+      <thead style="background-color:rgba(128, 128, 128, 0.49);">
+        <tr>
+          <th *ngIf="checkboxColumn" >
               <input type="checkbox" name="all" (click)="checkAll()"  [(checked)]="itemsStates"  />
           </th>
-          <th>
-              <button (click)="expandAll()" >{{expandText}}</button>
+          <th *ngIf="groupingColumn" >
+              <button (click)="expandAll()" ><i  aria-hidden="true"
+                [ngClass]="{'fa fa-chevron-right': true}"></i></button>
           </th>
-        <th class="pointer" (click)="sort('InvoiceNo')">Invoice No<i class="fa" 
-          [ngClass]="{'fa-sort': column != 'CategoryID', 
-                              'fa-sort-asc': (column == 'InvoiceNo' && isDesc), 
-                              'fa-sort-desc': (column == 'InvoiceNo' && !isDesc) }"
-          aria-hidden="true"> </i>
-      </th>
-        <th class="pointer" (click)="sort('InvoiceName')">Invoice Name 
-            <i class="fa" 
-            [ngClass]="{'fa-sort': column != 'InvoiceName', 
-                                'fa-sort-asc': (column == 'InvoiceName' && isDesc), 
-                                'fa-sort-desc': (column == 'InvoiceName' && !isDesc) }"
-            aria-hidden="true"> </i>
-        </th>
-        <th class="pointer" (click)="sort('Description')">Description
-            <i class="fa" 
-            [ngClass]="{'fa-sort': column != 'Description', 
-                                'fa-sort-asc': (column == 'Description' && isDesc), 
-                                'fa-sort-desc': (column == 'Description' && !isDesc) }"
-            aria-hidden="true"> </i>
-        </th>
-      </tr>
-      <!-- <tr *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}" > -->
-          <!-- <td>
-              <input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" />
-          </td>
-          <td>
-            <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">
-              <button (click)="expandItem(item)"
-              ><i  aria-hidden="true"
-                [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button>
-              </span>
-          </td>
-          <td>{{item.CategoryID}}</td>
-        <td>{{item.CategoryName}}</td>
-        <td>{{item.Description}}</td> -->
-        <!-- <div (click)="item.expanded=!item.expanded">
-          <span><input type="checkbox" name="size1" value="item.CategoryID" [(checked)]="item.state" /></span>
-          <span><button (click)="expandItem(item)"
-            ><i  aria-hidden="true"
-              [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button></span>
-          <span>{{item.CategoryID}}</span>
-          <span>{{item.CategoryName}}</span>
-          <span>{{item.Description}}</span>
-        </div>
-        <div *ngIf="item.expanded" >
-        <div *ngFor="let childItems of item.invoiceLines"><span>{{childItems.name}}</span></div></div>
-      </tr> -->
+          <th  *ngFor="let col of cols" >
+            <a (click)="sort(col)">{{col.header}}<i class="fa" [ngClass]="getHeaderClass(col.field,column)" aria-hidden="true"> </i>
+          </a></th>
 
-      <ng-container *ngFor="let item of records | category: searchText | orderBy: {property: column, direction: direction}">
-      <tr >
-          <td>
-              <input type="checkbox" name="size1" value="item.Invoiceno" [(checked)]="item.state" (click)="rowSelected(item)" />
-          </td>
-          <td>
-            <span *ngIf="item.invoiceLines && item.invoiceLines.length > 0">
-              <button (click)="item.expanded=!item.expanded"
-              ><i  aria-hidden="true"
-                [ngClass]="{'fa fa-chevron-right': column != 'item.invoiceLines && item.invoiceLines.length > 0'}"></i></button>
-              </span>
-          </td>
-          <td>{{item.InvoiceNo}}</td>
-        <td>{{item.InvoiceName}}</td>
-        <td>{{item.Description}}</td>
-        
+          <th *ngIf="editColumn" >
+              Edit
+          </th>
       </tr>
-      <ng-container *ngIf="item.expanded">
-      <tr *ngFor="let childItems of item.invoiceLines">
-        <td><input type="checkbox" name="size1" /></td>
-        <td>{{childItems.name}}</td>
-        <td>{{childItems.item}}</td>
-        <td>{{childItems.name}}</td>
-        <td>{{childItems.item}}</td>
+      </thead>
+
+      <tbody #scrollMe (scroll)="onScroll(e)" [ngClass]="tableBodyClass(gridData)">
+      <ng-container *ngFor="let data of gridData | search : searchText : column  : cols | orderBy: {property: column, direction: direction} ;let i = index;">
+
+      <tr (click)="rowClick(data)" [class.selectedRow]="getSelectedRow(data)" >
+          
+          <td *ngIf="checkboxColumn" > 
+            <input  type="checkbox" [(ngModel)]="data.state"  (click)="rowSelected(data)"/>
+          </td>
+          <td *ngIf="groupingColumn">
+              <button *ngIf="data[this.subItemsField] && data[this.subItemsField].length > 0" (click)="expandRow(data)"><i  aria-hidden="true"
+                [ngClass]="expandColumnClass(data)"></i></button>
+          </td>
+          
+          <ng-container *ngFor="let col of cols" >
+              <td *ngIf="col.fieldType === 'T' && data[col.field] == editRowId &&  data['invoiceNo'] === unique"> 
+                  <input type="text" (click)="onInputClick($event)" [value]="data[col.field]" (blur)="blurEvent($event)">
+               </td>
+               <td *ngIf="col.fieldType === 'T' && data[col.field] == editRowId &&  data['invoiceNo'] !== unique" > 
+                  {{data[col.field]}}
+               </td>
+               <td *ngIf="col.fieldType === 'T' && data[col.field] !== editRowId " (click)="toggle(data[col.field],data['invoiceNo'])">
+                  {{data[col.field]}}
+               </td>
+
+              <td *ngIf="col.fieldType === 'L' "><a href="javascript:void(0)" (click)="licensorClicked(data)" >{{data[col.field]}}</a></td>
+              
+          </ng-container>
+
+          <td *ngIf="editColumn">
+              <button  (click)="openDeleteRowDialog(data.invoiceNo,i)"><i  aria-hidden="true"
+                [ngClass]="{'fa fa-trash-o':true}"></i></button>
+          </td>
+          
+        </tr>
+
+        <ng-container *ngIf="data.expanded && data[subItemsField].length > 0">
+            <tr *ngFor="let childItems of data[subItemsField]">
+                <td *ngIf="checkboxColumn"> <input type="checkbox"  /></td>
+                <td *ngIf="groupingColumn" ></td>
+
+                <ng-container *ngFor="let col of cols" >
+                  <td >{{childItems[col.field]}}</td>
+               </ng-container>
+
+               <td *ngIf="editColumn">
+                  <button  (click)="openDeleteRowDialog(data,i)"><i  aria-hidden="true"
+                    [ngClass]="{'fa fa-trash-o':true}"></i></button>
+              </td>
+            </tr>
+         </ng-container>
+          
+      
+      </ng-container>
+      </tbody>
+
+      <!-- To be displayed if no gridData found-->
+      <tr *ngIf="gridData.length === 0"><td colspan=5>No records found!</td></tr>
+
+      <tfoot *ngIf="gridData.length > 0 && footer" style="background-color:rgba(128, 128, 128, 0.49);">
+        <tr>
+          <td *ngIf="checkboxColumn"></td>
+          <td *ngIf="groupingColumn"><button><i  aria-hidden="true" [ngClass]="{'fa fa-chevron-right': true}"></i></button></td>
+          <td *ngFor="let col of cols">footer</td>
+          <th *ngIf="editColumn" > </th>
+        </tr>
         
-      </tr>
-    </ng-container>
-    </ng-container>
-    </table>
-  </div>
+        
+  </table>
+</div>
+</div>
+
+<div><button (click)="getAllSelectedRows()">Selected Rows</button></div>
+<div><button (click)="addRow()">Add Row</button></div>
+<ng-content></ng-content>
+
+
+
+<app-dialog [(visible)]="showDialog" (deleteConfirm)="deleteRowConfirm(confirm)">
+  <h4>Confirm Deletion</h4>
+  
+</app-dialog>
